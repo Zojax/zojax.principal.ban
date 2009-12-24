@@ -1,0 +1,63 @@
+<div class="z-form-standard" i18n:domain="zojax.principal.ban">
+  <h1 class="z-form-label" i18n:translate=""
+      tal:content="context/context/__title__">Do something</h1>
+  <div class="z-form-description" i18n:translate=""
+       tal:content="context/context/__description__"></div>
+
+  <form action="." method="post" enctype="multipart/form-data" 
+	tal:attributes="method context/method;
+			enctype context/enctype;
+			acceptCharset context/acceptCharset;
+			accept context/accept;
+			action context/action;
+			name context/name;
+			id context/id">
+
+    <tal:block content="structure context/batch/@@pagelet/batch.view" />
+
+    <div class="z-table-container" tal:condition="context/batch">
+      <label>Banned members</label>
+      <table class="z-table">
+	<thead>
+          <tr>
+            <th></th>
+            <th i18n:translate="">Name</th>
+            <th i18n:translate="">Avatar</th>
+         </tr>
+	</thead>
+	<tbody>
+          <tal:block tal:repeat="uid context/batch">
+            <tr tal:define="info python:context.getMemberInfo(uid)"
+		tal:attributes="class python:repeat['uid'].odd() and 'even' or 'odd'">
+              <td>
+		<input type="checkbox" name="principal.users:list"
+		       tal:attributes="value info/id" />
+              </td>
+              <td>
+		<a tal:attributes="href info/space"
+		   tal:omit-tag="not:info/space">
+                  <tal:block content="info/title" />
+		</a>
+              </td>
+              <td class="ctb-avatar">
+		<div>
+                  <a tal:attributes="href info/space" 
+		     tal:omit-tag="not:info/space">
+                    <img tal:attributes="src info/avatar" />
+                  </a>
+		</div>
+              </td>
+            </tr>
+          </tal:block>
+	</tbody>
+      </table>
+    </div>
+
+    <div class="z-form-fieldset" tal:condition="context/widgets">
+      <tal:block tal:repeat="context context/widgets/values"
+		 tal:content="structure pagelet:form.widget" />
+    </div>
+    
+    <tal:block tal:content="structure pagelet:form.buttons" />
+  </form>
+</div>
