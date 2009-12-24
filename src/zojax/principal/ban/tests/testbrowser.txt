@@ -1,0 +1,152 @@
+==============
+Ban principals
+==============
+
+  >>> from zope import component
+  >>> from zope.testbrowser.testing import Browser
+  >>> from zope.app.testing.functional import getRootFolder
+  >>> from zope.app.component.hooks import setSite
+  >>> from zope.app.intid import IntIds
+  >>> from zope.app.intid.interfaces import IIntIds
+  >>> from zojax.catalog.catalog import Catalog, ICatalog
+
+  >>> root = getRootFolder()
+  >>> setSite(root)
+
+  >>> root['ids'] = IntIds()
+  >>> root.getSiteManager().registerUtility(root['ids'], IIntIds)
+  >>> root['catalog'] = Catalog()
+  >>> root.getSiteManager().registerUtility(root['catalog'], ICatalog)
+
+  >>> actor = Browser()
+  >>> actor.addHeader("Authorization", "Basic mgr:mgrpw")
+  >>> actor.handleErrors = False
+
+  >>> actor.open("http://localhost/settings/")
+  >>> actor.getLink('Authentication').click()
+
+We should install authentication utility
+
+  >>> print actor.contents
+  <html>
+  ...Pluggable authentication is not installed...
+  </html>
+
+  >>> actor.getControl(name='form.authinstall').click()
+
+We should register plugins with IAuthenticatorPluginFactory
+
+  >>> print actor.contents
+  <html>
+  ...Authentication service has been installed...
+  ...Portal authentication service configuration...
+  ...Standard users...
+  </html>
+
+  >>> actor.getControl(name='factory_ids:list').value = ['principal.users']
+  >>> actor.getControl(name='form.install').click()
+
+  >>> print actor.contents
+  <html>
+  ...Authenticator plugins have been installed...
+  ...Standard users...
+  <a href="?change_state=principal.users"
+     title="Change state">(Active)</a>
+  ...
+  </html>
+
+
+Add principal
+-------------
+login is case insensitive
+
+  >>> actor.open("http://localhost/settings/principals/")
+  >>> actor.getLink('Member').click()
+  >>> actor.getControl(name="form.buttons.cancel").click()
+  >>> actor.url
+  'http://localhost/settings/principals/'
+
+  >>> actor.getLink('Member').click()
+  >>> actor.getControl('First Name').value = u'Nikolay'
+  >>> actor.getControl('Last Name').value = u'Kim'
+  >>> actor.getControl('E-mail/Login').value = u'nkiM@zojaX.net'
+  >>> actor.getControl('Password').value = u'12345'
+  >>> actor.getControl(name="form.buttons.add").click()
+
+  >>> from zojax.principal.users.interfaces import IUsersPlugin
+  >>> plugin = component.getUtility(IUsersPlugin)
+  >>> principal = plugin['01']
+
+  >>> principal.title, principal.login, principal.logins
+  (u'Nikolay Kim', u'nkim@zojax.net', ())
+
+
+Let's login as new principal
+
+  >>> user = Browser()
+  >>> user.handleErrors = False
+  >>> user.open("http://localhost/")
+
+  >>> user.getLink('[Login]').click()
+  >>> user.getControl('Login Name').value = u'nkim@zojax.net'
+  >>> user.getControl('Password').value = u'12345'
+  >>> user.getControl(name="form.zojax-auth-login").click()
+  >>> print user.contents
+  <!DOCTYPE html...
+  ...User:...
+  ...Nikolay Kim...
+  </html>
+
+
+Ban principal
+=============
+
+  >>> actor.open("http://localhost/settings/")
+  >>> actor.getLink('Ban principals').click()
+
+  >>> actor.getControl('Ban').click()
+  >>> 'Please select member' in actor.contents
+  True
+
+  >>> actor.getControl(name="form.widgets.principals:list").value = [u'zojax.pf01']
+  >>> actor.getControl('Ban').click()
+  >>> 'Members has been banned' in actor.contents
+  True
+
+Let's relogin as new principal
+
+  >>> user = Browser()
+  >>> user.handleErrors = False
+  >>> user.open("http://localhost/")
+
+  >>> user.getLink('[Login]').click()
+  >>> user.getControl('Login Name').value = u'nkim@zojax.net'
+  >>> user.getControl('Password').value = u'12345'
+  >>> user.getControl(name="form.zojax-auth-login").click()
+  >>> user.url
+  'http://localhost/login.html'
+
+  >>> 'Your account is banned.' in user.contents
+  True
+
+
+Unban principal
+
+  >>> actor.getControl('Unban').click()
+  >>> 'Please select members.' in actor.contents
+  True
+
+  >>> actor.getControl(name="principal.users:list").value = [u'zojax.pf01']
+  >>> actor.getControl('Unban').click()
+
+  >>> 'Members have been unbanned.' in actor.contents
+  True
+
+  >>> user.getControl('Login Name').value = u'nkim@zojax.net'
+  >>> user.getControl('Password').value = u'12345'
+  >>> user.getControl(name="form.zojax-auth-login").click()
+  >>> user.url
+  'http://localhost/'
+
+  >>> setSite(None)
+
