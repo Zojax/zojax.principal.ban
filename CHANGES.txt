@@ -1,20 +1,8 @@
-=======
-CHANGES
-=======
-
-0.2.1 (2009-11-20)
+1.0.2 (Unreleased)
 ------------------
 
-- Tests updated
 
-
-0.2.0 (2009-08-27)
+1.0.1 (2010-01-19)
 ------------------
 
-- Use list principals widget
-
-
-0.1.0 (2009-08-11)
-------------------
-
-- Initial release.
+- zojax initial release
