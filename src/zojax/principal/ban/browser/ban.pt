@@ -16,7 +16,7 @@
     <tal:block content="structure context/batch/@@pagelet/batch.view" />
 
     <div class="z-table-container" tal:condition="context/batch">
-      <label>Banned members</label>
+      <label i18n:translate="">Banned members</label>
       <table class="z-table">
 	<thead>
           <tr>
