@@ -1,7 +1,7 @@
 <div class="z-form-standard" i18n:domain="zojax.principal.ban">
-  <h1 class="z-form-label" i18n:translate=""
+  <h1 class="z-form-label"
       tal:content="context/context/__title__">Do something</h1>
-  <div class="z-form-description" i18n:translate=""
+  <div class="z-form-description"
        tal:content="context/context/__description__"></div>
 
   <form action="." method="post" enctype="multipart/form-data" 
