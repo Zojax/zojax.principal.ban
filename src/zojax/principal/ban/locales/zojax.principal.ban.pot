@@ -1,0 +1,81 @@
+##############################################################################
+#
+# Copyright (c) 2003-2004 Zope Corporation and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
+msgid ""
+msgstr ""
+"Project-Id-Version: Development/Unknown\n"
+"POT-Creation-Date: Sun Dec 11 10:38:08 2011\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: zope/app/locales/extract.py\n"
+
+#: src/zojax/principal/ban/browser/ban.pt:19
+msgid "Banned members"
+msgstr ""
+
+#: src/zojax/principal/ban/browser/ban.pt:24
+msgid "Name"
+msgstr ""
+
+#: src/zojax/principal/ban/browser/ban.pt:25
+msgid "Avatar"
+msgstr ""
+
+#: src/zojax/principal/ban/browser/ban.py:33
+msgid "Manage"
+msgstr ""
+
+#: src/zojax/principal/ban/browser/ban.py:64
+msgid "Ban"
+msgstr ""
+
+#: src/zojax/principal/ban/browser/ban.py:71
+msgid "Please select member."
+msgstr ""
+
+#: src/zojax/principal/ban/browser/ban.py:76
+msgid "Members has been banned."
+msgstr ""
+
+#: src/zojax/principal/ban/browser/ban.py:79
+msgid "Unban"
+msgstr ""
+
+#: src/zojax/principal/ban/browser/ban.py:88
+msgid "Please select members."
+msgstr ""
+
+#: src/zojax/principal/ban/browser/ban.py:93
+msgid "Members have been unbanned."
+msgstr ""
+
+#: src/zojax/principal/ban/browser/interfaces.py:28
+msgid "Portal member"
+msgstr ""
+
+#: src/zojax/principal/ban/configure.zcml:8
+msgid "Ban principals"
+msgstr ""
+
+#: src/zojax/principal/ban/configure.zcml:8
+msgid "Ban principals on portal."
+msgstr ""
+
+#: src/zojax/principal/ban/subscribers.py:33
+msgid "Your account is banned."
+msgstr ""
+
