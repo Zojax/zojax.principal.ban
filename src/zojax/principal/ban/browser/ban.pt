@@ -4,60 +4,61 @@
   <div class="z-form-description"
        tal:content="context/context/__description__"></div>
 
-  <form action="." method="post" enctype="multipart/form-data" 
-	tal:attributes="method context/method;
-			enctype context/enctype;
-			acceptCharset context/acceptCharset;
-			accept context/accept;
-			action context/action;
-			name context/name;
-			id context/id">
+  <form action="." method="post" enctype="multipart/form-data"
+    tal:attributes="method context/method;
+            enctype context/enctype;
+            acceptCharset context/acceptCharset;
+            accept context/accept;
+            action context/action;
+            name context/name;
+            id context/id">
 
     <tal:block content="structure context/batch/@@pagelet/batch.view" />
 
     <div class="z-table-container" tal:condition="context/batch">
       <label i18n:translate="">Banned members</label>
       <table class="z-table">
-	<thead>
+    <thead>
           <tr>
             <th></th>
             <th i18n:translate="">Name</th>
             <th i18n:translate="">Avatar</th>
          </tr>
-	</thead>
-	<tbody>
+    </thead>
+    <tbody>
           <tal:block tal:repeat="uid context/batch">
             <tr tal:define="info python:context.getMemberInfo(uid)"
-		tal:attributes="class python:repeat['uid'].odd() and 'even' or 'odd'">
+        tal:attributes="class python:repeat['uid'].odd() and 'even' or 'odd'"
+        tal:condition="info">
               <td>
-		<input type="checkbox" name="principal.users:list"
-		       tal:attributes="value info/id" />
+        <input type="checkbox" name="principal.users:list"
+               tal:attributes="value info/id" />
               </td>
               <td>
-		<a tal:attributes="href info/space"
-		   tal:omit-tag="not:info/space">
+        <a tal:attributes="href info/space"
+           tal:omit-tag="not:info/space">
                   <tal:block content="info/title" />
-		</a>
+        </a>
               </td>
               <td class="ctb-avatar">
-		<div>
-                  <a tal:attributes="href info/space" 
-		     tal:omit-tag="not:info/space">
+        <div>
+                  <a tal:attributes="href info/space"
+             tal:omit-tag="not:info/space">
                     <img tal:attributes="src info/avatar" />
                   </a>
-		</div>
+        </div>
               </td>
             </tr>
           </tal:block>
-	</tbody>
+    </tbody>
       </table>
     </div>
 
     <div class="z-form-fieldset" tal:condition="context/widgets">
       <tal:block tal:repeat="context context/widgets/values"
-		 tal:content="structure pagelet:form.widget" />
+         tal:content="structure pagelet:form.widget" />
     </div>
-    
+
     <tal:block tal:content="structure pagelet:form.buttons" />
   </form>
 </div>
